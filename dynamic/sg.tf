@@ -1,5 +1,5 @@
 resource "aws_security_group" "allow_ssh_terraform"{
-    name = "allow_sshh"#as already we have allow_ssh
+    name = "dynamic_demo"#as already we have allow_ssh
     description = "Allow port 22 for ssh access"
     egress {
         from_port        = 0
