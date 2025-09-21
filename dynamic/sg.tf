@@ -9,37 +9,14 @@ resource "aws_security_group" "allow_ssh_terraform"{
         ipv6_cidr_blocks = ["::/0"]
     }
     dynamic "ingress" {
-        from_port        = 22
-        to_port          = 22
-        protocol         = "tcp"
-        cidr_blocks      = ["0.0.0.0/0"]
-        ipv6_cidr_blocks = ["::/0"]
+        for_each = var.ingress_rules
+        content {
+        from_port        = ingress.value["from_port"]
+        to_port          = ingress.value["to_port"]
+        protocol         = ingress.value["protocol"]
+        cidr_blocks      = ingress.value.cidr_blocks #we can give this way as well
+        }
     }
-
-    ingress {
-        from_port        = 8080
-        to_port          = 8080
-        protocol         = "tcp"
-        cidr_blocks      = ["0.0.0.0/0"]
-        ipv6_cidr_blocks = ["::/0"]
-    }
-
-    ingress {
-        from_port        = 3306
-        to_port          = 3306
-        protocol         = "tcp"
-        cidr_blocks      = ["0.0.0.0/0"]
-        ipv6_cidr_blocks = ["::/0"]
-    }
-
-     ingress {
-        from_port        = 80
-        to_port          = 80
-        protocol         = "tcp"
-        cidr_blocks      = ["0.0.0.0/0"]
-        ipv6_cidr_blocks = ["::/0"]
-    }
-
     tags = {
         Name = "allow_sshh"
     }
